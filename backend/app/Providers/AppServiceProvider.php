@@ -26,6 +26,9 @@ use App\Contracts\OrganizationRepositoryInterface;
 use App\Contracts\OrganizationServiceInterface;
 use App\Contracts\RoleRepositoryInterface;
 use App\Contracts\RoleServiceInterface;
+use App\Contracts\Scale\ScaleApiServiceInterface;
+use App\Contracts\Scale\ScaleRepositoryInterface;
+use App\Contracts\Scale\ScaleServiceInterface;
 use App\Contracts\UserRepositoryInterface;
 use App\Contracts\UserServiceInterface;
 use App\Repositories\BackupDayRepository;
@@ -40,6 +43,7 @@ use App\Repositories\InternetServiceProviderRepository;
 use App\Repositories\InternetSpeedRepository;
 use App\Repositories\OrganizationRepository;
 use App\Repositories\RoleRepository;
+use App\Repositories\ScaleRepository;
 use App\Repositories\UserRepository;
 use App\Services\BackupDayService;
 use App\Services\BackupObjectService;
@@ -53,6 +57,8 @@ use App\Services\InternetServiceProviderService;
 use App\Services\InternetSpeedService;
 use App\Services\OrganizationsService;
 use App\Services\RoleService;
+use App\Services\ScaleApiService;
+use App\Services\ScaleService;
 use App\Services\UserService;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
@@ -104,6 +110,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(BackupPriorityRepositoryInterface::class, BackupPriorityRepository::class);
         $this->app->bind(BackupPriorityServiceInterface::class, BackupPriorityService::class);
+
+        $this->app->bind(ScaleRepositoryInterface::class, ScaleRepository::class);
+        $this->app->bind(ScaleServiceInterface::class, ScaleService::class);
+        $this->app->bind(ScaleApiServiceInterface::class, ScaleApiService::class);
     }
 
     /**
