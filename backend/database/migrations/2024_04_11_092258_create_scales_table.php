@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("ip_address");
             $table->integer("port");
-            $table->string("description");
+            $table->string("description")->nullable();
             $table->timestamps();
         });
     }

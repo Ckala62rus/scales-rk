@@ -29,6 +29,8 @@ use App\Contracts\RoleServiceInterface;
 use App\Contracts\Scale\ScaleApiServiceInterface;
 use App\Contracts\Scale\ScaleRepositoryInterface;
 use App\Contracts\Scale\ScaleServiceInterface;
+use App\Contracts\ScaleWeight\ScaleWeightRepositoryInterface;
+use App\Contracts\ScaleWeight\ScaleWeightServiceInterface;
 use App\Contracts\UserRepositoryInterface;
 use App\Contracts\UserServiceInterface;
 use App\Repositories\BackupDayRepository;
@@ -44,6 +46,7 @@ use App\Repositories\InternetSpeedRepository;
 use App\Repositories\OrganizationRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\ScaleRepository;
+use App\Repositories\ScaleWeightRepository;
 use App\Repositories\UserRepository;
 use App\Services\BackupDayService;
 use App\Services\BackupObjectService;
@@ -59,6 +62,7 @@ use App\Services\OrganizationsService;
 use App\Services\RoleService;
 use App\Services\ScaleApiService;
 use App\Services\ScaleService;
+use App\Services\ScaleWeightService;
 use App\Services\UserService;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
@@ -113,7 +117,11 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ScaleRepositoryInterface::class, ScaleRepository::class);
         $this->app->bind(ScaleServiceInterface::class, ScaleService::class);
+
         $this->app->bind(ScaleApiServiceInterface::class, ScaleApiService::class);
+
+        $this->app->bind(ScaleWeightRepositoryInterface::class, ScaleWeightRepository::class);
+        $this->app->bind(ScaleWeightServiceInterface::class, ScaleWeightService::class);
     }
 
     /**

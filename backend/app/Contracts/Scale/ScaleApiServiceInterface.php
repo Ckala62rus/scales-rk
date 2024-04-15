@@ -12,4 +12,5 @@ interface ScaleApiServiceInterface
     public function convertHexToDec(array $stringHex, array $positionList): array;
     public function convertHexArrayDataToWeightForScale(array $hexArrayData): int;
     public function getSocket(string $ip, int $port): Socket;
+    public function getWeight(string $ip, int $port): float;
 }

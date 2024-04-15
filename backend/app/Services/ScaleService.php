@@ -48,6 +48,10 @@ class ScaleService implements ScaleServiceInterface
             ->scaleRepository
             ->getQuery();
 
+        $query = $this
+            ->scaleRepository
+            ->withScaleRelation($query, ["scales_weight"]);
+
         return $this
             ->scaleRepository
             ->getAllScalesCollection($query);
@@ -81,6 +85,10 @@ class ScaleService implements ScaleServiceInterface
         $query = $this
             ->scaleRepository
             ->getQuery();
+
+        $query = $this
+            ->scaleRepository
+            ->withScaleRelation($query, ["scales_weight"]);
 
         return $this
             ->scaleRepository

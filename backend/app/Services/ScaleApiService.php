@@ -176,4 +176,24 @@ class ScaleApiService implements ScaleApiServiceInterface
 
         return $socket;
     }
+
+    /**
+     * Get weight from scale by ip address and port
+     *
+     * @param string $ip
+     * @param int $port
+     * @return float
+     * @throws Exception
+     */
+    public function getWeight(string $ip, int $port): float
+    {
+        $this->getScaleInfo($ip, $port);
+        $socket = $this->getSocket($ip, $port);
+        $dataFormScale = $this->sendCommandToSocket($socket);
+        $convertDataToDecFromScale = $this
+            ->convertHexToDec($dataFormScale, [6, 7, 8, 9]);
+        $bytesWight = $this
+            ->convertHexArrayDataToWeightForScale($convertDataToDecFromScale);
+        return $bytesWight / 100;
+    }
 }
