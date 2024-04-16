@@ -28,6 +28,9 @@ class GetScaleWeightJob implements ShouldQueue
         private Scale $scale
     ){}
 
+//    public $tries = 3;
+//    public $retryAfter = 5;
+
     /**
      * Execute the job.
      *
@@ -35,39 +38,40 @@ class GetScaleWeightJob implements ShouldQueue
      */
     public function handle()
     {
+
+        $retry = 2;
+
         /** @var ScaleApiServiceInterface $scalesApiService */
         $scalesApiService = app(ScaleApiServiceInterface::class);
 
         /** @var ScaleWeightServiceInterface $scaleWeightService */
         $scaleWeightService = app(ScaleWeightServiceInterface::class);
 
-        try {
-//            $scalesApiService
-//                ->getScaleInfo($config['ip'], $config['port']);
-//
-//            $socket = $scalesApiService
-//                ->getSocket($config['ip'], $config['port']);
-//
-//            $dataFormScale = $scalesApiService
-//                ->sendCommandToSocket($socket);
-//
-//            $convertDataToDecFromScale = $scalesApiService
-//                ->convertHexToDec($dataFormScale, [6, 7, 8, 9]);
-//
-//            $bytesWight = $scalesApiService
-//                ->convertHexArrayDataToWeightForScale($convertDataToDecFromScale);
-//
-//            $result = $bytesWight / 100;
+        while ($retry != 0) {
+            try {
+                $retry--;
+                $weight = $scalesApiService->getWeight($this->scale->ip_address, $this->scale->port);
 
+                if ($weight > 100.00) {
+                    throw new \Exception("Весы вернули большой вес ({$weight}). Проверь весы");
+                }
 
-            $weight = $scalesApiService->getWeight($this->scale->ip, $this->scale->port);
-            $scaleWeightService->createScaleWeight([
-                "scale_id" => $this->scale->id,
-                "weight" => $weight
-            ]);
+                $scaleWeightService->createScaleWeight([
+                    "scale_id" => $this->scale->id,
+                    "weight" => $weight
+                ]);
 
-        } catch (\Exception $exception) {
-            Log::info($exception->getMessage());
+                break;
+
+            } catch (\Exception $exception) {
+                Log::info($exception->getMessage());
+            }
+        }
+
+        if ($retry == 0) {
+            Log::info("Количество попыток для получения данных с ({$this->scale->ip_address}) истекло");
+            // send email
+            // send telegram message
         }
     }
 }
