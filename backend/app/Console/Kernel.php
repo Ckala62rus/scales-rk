@@ -16,8 +16,14 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-         $schedule
+        $schedule
              ->command('command:gocron')
+            ->everyMinute()
+            ->withoutOverlapping();
+
+         $schedule
+//             ->command('command:gocron')
+             ->command('command:GetScaleWeightCommand')
              ->everyMinute()
              ->withoutOverlapping();
     }
