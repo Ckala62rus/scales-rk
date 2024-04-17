@@ -39,6 +39,10 @@ RUN docker-php-ext-install \
     exif \
     zip
 
+# extension for timeout queue (https://laravel.com/docs/11.x/queues#timeout)
+RUN docker-php-ext-configure pcntl --enable-pcntl \
+  && docker-php-ext-install pcntl;
+
 RUN pecl install redis \
     # Redis is installed, enable it
     && docker-php-ext-enable redis
