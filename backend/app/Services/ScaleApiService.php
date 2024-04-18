@@ -108,7 +108,7 @@ class ScaleApiService implements ScaleApiServiceInterface
         }
 
         if ($buf == null) {
-            throw new Exception("Не могу получить данные или нет связи с весами {$ip}:{$port}");
+            throw new Exception("Не могу получить данные или нет связи с весами ({$ip}:{$port}).");
         }
 
         return [

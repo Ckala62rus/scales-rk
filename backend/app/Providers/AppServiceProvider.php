@@ -22,6 +22,7 @@ use App\Contracts\InternetServiceProvider\InternetServiceProviderRepositoryInter
 use App\Contracts\InternetServiceProvider\InternetServiceProviderServiceInterface;
 use App\Contracts\InternetSpeed\InternetSpeedRepositoryInterface;
 use App\Contracts\InternetSpeed\InternetSpeedServiceInterface;
+use App\Contracts\Notification\NotificationFabricInterface;
 use App\Contracts\OrganizationRepositoryInterface;
 use App\Contracts\OrganizationServiceInterface;
 use App\Contracts\RoleRepositoryInterface;
@@ -58,6 +59,7 @@ use App\Services\DeviceService;
 use App\Services\EquipmentService;
 use App\Services\InternetServiceProviderService;
 use App\Services\InternetSpeedService;
+use App\Services\NotificationScaleFabric;
 use App\Services\OrganizationsService;
 use App\Services\RoleService;
 use App\Services\ScaleApiService;
@@ -122,6 +124,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ScaleWeightRepositoryInterface::class, ScaleWeightRepository::class);
         $this->app->bind(ScaleWeightServiceInterface::class, ScaleWeightService::class);
+
+        $this->app->bind(NotificationFabricInterface::class, NotificationScaleFabric::class);
     }
 
     /**

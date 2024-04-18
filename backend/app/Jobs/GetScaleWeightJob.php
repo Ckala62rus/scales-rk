@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Contracts\Notification\NotificationFabricInterface;
 use App\Contracts\Scale\ScaleApiServiceInterface;
 use App\Contracts\Scale\ScaleServiceInterface;
 use App\Contracts\ScaleWeight\ScaleWeightServiceInterface;
@@ -38,7 +39,6 @@ class GetScaleWeightJob implements ShouldQueue
      */
     public function handle()
     {
-
         $retry = 2;
 
         /** @var ScaleApiServiceInterface $scalesApiService */
@@ -47,13 +47,20 @@ class GetScaleWeightJob implements ShouldQueue
         /** @var ScaleWeightServiceInterface $scaleWeightService */
         $scaleWeightService = app(ScaleWeightServiceInterface::class);
 
+        /** @var NotificationFabricInterface $scaleWeightService */
+        $notificationFabric = app(NotificationFabricInterface::class);
+
         while ($retry != 0) {
             try {
+                if ($retry == 1) {
+                    sleep(15);
+                }
+
                 $retry--;
                 $weight = $scalesApiService->getWeight($this->scale->ip_address, $this->scale->port);
 
                 if ($weight > 100.00) {
-                    throw new \Exception("Весы вернули большой вес ({$weight}). Проверь весы");
+                    throw new \Exception("Весы вернули большой вес ({$weight}). Проверь весы.");
                 }
 
                 $scaleWeightService->createScaleWeight([
@@ -65,11 +72,16 @@ class GetScaleWeightJob implements ShouldQueue
 
             } catch (\Exception $exception) {
                 Log::info($exception->getMessage());
+                $notificationFabric
+                    ->sendNotifications($exception->getMessage() . "\n", []);
             }
         }
 
         if ($retry == 0) {
-            Log::info("Количество попыток для получения данных с ({$this->scale->ip_address}) истекло");
+            $error = "Количество попыток для получения данных с весов по адресу ({$this->scale->ip_address}:{$this->scale->port}) истекло.";
+            Log::info($error);
+            $notificationFabric
+                ->sendNotifications($exception->getMessage() . "\n", [$error]);
             // send email
             // send telegram message
         }
