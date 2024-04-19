@@ -68,22 +68,31 @@ class GetScaleWeightJob implements ShouldQueue
                     "weight" => $weight
                 ]);
 
+                if ($this->scale->send_error_notification) {
+                    $this->scale->send_error_notification = false;
+                    $this->scale->last_error = null;
+                    $this->scale->save();
+                }
+
                 break;
 
             } catch (\Exception $exception) {
                 Log::info($exception->getMessage());
-                $notificationFabric
-                    ->sendNotifications($exception->getMessage() . "\n", []);
             }
         }
 
         if ($retry == 0) {
-            $error = "Количество попыток для получения данных с весов по адресу ({$this->scale->ip_address}:{$this->scale->port}) истекло.";
-            Log::info($error);
-            $notificationFabric
-                ->sendNotifications($exception->getMessage() . "\n", [$error]);
-            // send email
-            // send telegram message
+            // Если в БД стоит 0, то можно отправлять письмо
+            if (!$this->scale->send_error_notification) {
+                $error = "Количество попыток для получения данных с весов по адресу ({$this->scale->ip_address}:{$this->scale->port}) истекло.";
+                Log::info($error);
+                $notificationFabric
+                    ->sendNotifications($exception->getMessage() . "\n", [$error]);
+
+                $this->scale->send_error_notification = true;
+                $this->scale->last_error = $exception->getMessage() . " | " . $error;
+                $this->scale->save();
+            }
         }
     }
 }

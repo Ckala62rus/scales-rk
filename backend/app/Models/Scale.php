@@ -14,6 +14,8 @@ class Scale extends Model
         "ip_address",
         "port",
         "description",
+        "send_error_notification",
+        "last_error",
     ];
 
     /**
