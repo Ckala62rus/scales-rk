@@ -22,12 +22,22 @@ class ScaleController extends BaseController
         private ScaleServiceInterface $scaleService
     ){}
 
-    public function index()
+    /**
+     * Return vue component for index page
+     *
+     * @return \Inertia\Response
+     */
+    public function index(): \Inertia\Response
     {
         return Inertia::render('Scale/ScaleIndex');
     }
 
-    public function create()
+    /**
+     * Return vue component for create page
+     *
+     * @return \Inertia\Response
+     */
+    public function create(): \Inertia\Response
     {
         return Inertia::render('Scale/ScaleCreate');
     }
@@ -90,9 +100,15 @@ class ScaleController extends BaseController
         );
     }
 
-    public function edit(int $id)
+    /**
+     * Return vue component for edit page
+     *
+     * @param int $id
+     * @return \Inertia\Response
+     */
+    public function edit(int $id): \Inertia\Response
     {
-        // view
+        return Inertia::render('Scale/ScaleEdit', ['id' => $id]);
     }
 
     /**
@@ -127,7 +143,7 @@ class ScaleController extends BaseController
         try {
             $scale = $this
                 ->scaleService
-                ->getScaleById($id);
+                ->deleteScale($id);
 
         } catch (\Exception $exception) {
             return $this->response(
