@@ -14,6 +14,7 @@ use App\Http\Controllers\InternetSpeedController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\ScaleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -124,6 +125,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('backup-priorities', BackupPriorityController::class);
         Route::get('backup-priorities-all-paginate', [BackupPriorityController::class, 'getAllBackupPriorityWithPagination']);
         Route::get('backup-priorities-all-collection', [BackupPriorityController::class, 'getAllBackupPriorityCollection']);
+
+        Route::resource('scales', ScaleController::class);
+        Route::get('scales-all-paginate', [ScaleController::class, 'getAllScalesWithPagination']);
     });
 
     // Permission
