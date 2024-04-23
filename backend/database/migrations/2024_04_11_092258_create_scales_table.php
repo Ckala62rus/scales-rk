@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('scales', function (Blueprint $table) {
             $table->id();
-            $table->string("ip_address");
+            $table->string("ip_address")->unique();
             $table->integer("port");
             $table->string("description")->nullable();
             $table->timestamps();
