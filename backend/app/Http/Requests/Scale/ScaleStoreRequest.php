@@ -24,9 +24,19 @@ class ScaleStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'ip_address' => 'required|string',
+            'ip_address' => 'required|string|unique:App\Models\Scale,ip_address',
             'port' => 'required|numeric',
             'description' => 'nullable',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'ip_address.required' => 'ip адрес обязателен для заполнения!',
+            'ip_address.unique' => 'такой адрес уже существует!',
+
+            'port.required' => 'порт обязателен для заполнения!',
         ];
     }
 }

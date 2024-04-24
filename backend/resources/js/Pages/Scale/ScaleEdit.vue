@@ -52,8 +52,8 @@
 
                         <div class="card-footer">
                         <div class="form__button">
-                            <button type="submit" class="btn btn-success mr-2 button_width">Create</button>
-                            <Link :href="route('scales.index')" as="button" method="get" class="btn btn-primary font-weight-bolder button_width">Back</Link>
+                            <button type="submit" class="btn btn-success mr-2 button_width">Сохранить</button>
+                            <Link :href="route('scales.index')" as="button" method="get" class="btn btn-primary font-weight-bolder button_width">Назад</Link>
                         </div>
                     </div>
                     </form>

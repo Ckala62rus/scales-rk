@@ -52,8 +52,8 @@
 
                         <div class="card-footer">
                         <div class="form__button">
-                            <button type="submit" class="btn btn-success mr-2 button_width">Create</button>
-                            <Link :href="route('scales.index')" as="button" method="get" class="btn btn-primary font-weight-bolder button_width">Back</Link>
+                            <button type="submit" class="btn btn-success mr-2 button_width">Создать</button>
+                            <Link :href="route('scales.index')" as="button" method="get" class="btn btn-primary font-weight-bolder button_width">Назад</Link>
                         </div>
                     </div>
                     </form>
@@ -86,12 +86,16 @@ export default {
             },
             errors: {
                 ip_address: false,
+                port: false,
             },
         }
     },
 
     methods: {
         createScale() {
+
+            this.resetErrors()
+
             axios.post('/admin/scales/', this.form)
                 .then(res => {
                     if (res.status === 200){
@@ -104,6 +108,36 @@ export default {
                         });
                     }
                 })
+                .catch(err => {
+                    let errors = err.response.data.errors
+
+                    if (err.response.status === 422) {
+                        this.errors = {
+                            ip_address: errors.hasOwnProperty('ip_address'),
+                            port: errors.hasOwnProperty('port'),
+                        }
+                    }
+
+                    this.error_messages = {
+                        ip_address: errors.hasOwnProperty('ip_address') ? errors.ip_address[0] : '',
+                        port: errors.hasOwnProperty('port') ? errors.port[0] : '',
+                    }
+
+                    this.$notify({
+                        title: "Ошибка",
+                        message: "Ошибка в заполнении полей",
+                        speed: 5000,
+                        duration: 5000,
+                        type: 'error'
+                    });
+                })
+        },
+
+        resetErrors(){
+            this.errors = {
+                ip_address: false,
+                port: false,
+            }
         },
     },
 }
