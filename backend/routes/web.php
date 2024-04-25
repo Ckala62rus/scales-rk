@@ -128,6 +128,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('scales', ScaleController::class);
         Route::get('scales-all-paginate', [ScaleController::class, 'getAllScalesWithPagination']);
+        Route::get('scales-detail/{id}', [ScaleController::class, 'getScaleDetail'])->name('scale.detail');
     });
 
     // Permission

@@ -180,4 +180,15 @@ class ScaleController extends BaseController
             'count' => $scales->total()
         ]);
     }
+
+    /**
+     * Get scale detail page with ChartJs and table details
+     *
+     * @param int $id
+     * @return \Inertia\Response
+     */
+    public function getScaleDetail(int $id): \Inertia\Response
+    {
+        return Inertia::render('Scale/ScaleDetail', ['id' => $id]);
+    }
 }
