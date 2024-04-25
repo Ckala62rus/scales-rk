@@ -8,6 +8,7 @@ use App\Contracts\ScaleWeight\ScaleWeightServiceInterface;
 use App\Models\Scale;
 use App\Models\ScaleWeight;
 use App\Services\ScaleApiService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery;
@@ -16,6 +17,8 @@ use Tests\TestCase;
 
 class ScaleApiServiceTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * A basic feature test example.
      * clear && vendor/bin/phpunit --filter=ScaleApiServiceTest
