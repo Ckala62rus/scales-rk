@@ -101,13 +101,11 @@ export default {
         getScale(){
             axios.get('/admin/scales/' + this.id)
                 .then(res => {
-                    console.log(res.data.data.scale)
                     this.form = res.data.data.scale;
                 })
         },
 
         editScale() {
-            console.log(this.form)
             axios.put('/admin/scales/' + this.id, this.form)
                 .then(res => {
                     if (res.status === 200){
