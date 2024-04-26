@@ -15,6 +15,7 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ScaleController;
+use App\Http\Controllers\ScaleWeightController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -129,6 +130,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('scales', ScaleController::class);
         Route::get('scales-all-paginate', [ScaleController::class, 'getAllScalesWithPagination']);
         Route::get('scales-detail/{id}', [ScaleController::class, 'getScaleDetail'])->name('scale.detail');
+
+        Route::get('scale-detail', [ScaleWeightController::class, 'getScaleDetailById']);
     });
 
     // Permission
