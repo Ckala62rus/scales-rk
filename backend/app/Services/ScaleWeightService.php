@@ -4,9 +4,12 @@ namespace App\Services;
 
 use App\Contracts\ScaleWeight\ScaleWeightRepositoryInterface;
 use App\Contracts\ScaleWeight\ScaleWeightServiceInterface;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class ScaleWeightService implements ScaleWeightServiceInterface
 {
@@ -27,9 +30,12 @@ class ScaleWeightService implements ScaleWeightServiceInterface
             ->weightRepository
             ->getQuery();
 
-        if ($filter["scale_id"]) {
-            $query = $query->where("scale_id", $filter["scale_id"]);
+        if ($filter["id"]) {
+            $query = $query->where("scale_id", $filter["id"]);
         }
+
+        $query = $this
+            ->setFilterForSearch($query, $filter);
 
         return $this
             ->weightRepository
@@ -124,5 +130,30 @@ class ScaleWeightService implements ScaleWeightServiceInterface
         return $this
             ->weightRepository
             ->deleteScaleWeight($query, $id);
+    }
+
+    /**
+     * Set filter by search for Eloquent builder
+     *
+     * @param Builder $query
+     * @param array $filter
+     * @return Builder
+     */
+    private function setFilterForSearch(Builder $query, array $filter): Builder
+    {
+        if (isset($filter['date_start']) && isset($filter['date_end'])){
+            $query = $query->where(function ($query) use ($filter){
+                /** @var Builder $query $start */
+                $start = Carbon::parse($filter['date_start'])->format('Y-m-d') . ' 00:00:00';
+                $end = Carbon::parse($filter['date_end'])->format('Y-m-d') . ' 23:59:59';
+                $query->whereBetween('created_at', [$start, $end]);
+            });
+        }
+
+        if (!isset($filter['date_start']) && !isset($filter['date_end'])){
+            $query = $query->whereDate('created_at', Carbon::now());
+        }
+
+        return $query;
     }
 }
