@@ -28,14 +28,8 @@
 
         <div class="container-fluid mb-5 equipment__container">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="card card-custom rdp_statistic_mg">
-                        <!--                    <div class="card-header">-->
-                        <!--                        <h3 class="card-title">-->
-                        <!--                            Список оборудования-->
-                        <!--                        </h3>-->
-                        <!--                    </div>-->
-
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-8">
@@ -43,10 +37,53 @@
                                         :href="route('scales.index')"
                                         as="button"
                                         method="get"
-                                        class="btn btn-success mb-5"
+                                        class="btn btn-success mb-5 mr-5"
                                     >
                                         Назад
                                     </Link>
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary mb-5 mr-5"
+                                        @click.prevent="findByFilter"
+                                    >Найти</button>
+
+                                    <button
+                                        type="reset"
+                                        class="btn btn-secondary mb-5"
+                                        @click="clearFilter"
+                                    >Сброс</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="col-md-2">
+                                        <div class="form-group select-form_group">
+                                            <label>Начальная дата:</label>
+                                            <el-date-picker
+                                                v-model="filter.date_start"
+                                                type="date"
+                                                placeholder="Pick a day"
+                                                :shortcuts="shortcuts"
+                                                :size="'default'"
+                                                :value-format="'YYYY-MM-DD'"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group select-form_group">
+                                            <label>Конечная дата:</label>
+                                            <el-date-picker
+                                                v-model="filter.date_end"
+                                                type="date"
+                                                placeholder="Pick a day"
+                                                :shortcuts="shortcuts"
+                                                :size="'default'"
+                                                :value-format="'YYYY-MM-DD'"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -97,7 +134,7 @@ export default {
 
     components: {
         Link,
-        Line
+        Line,
     },
 
     props: {
@@ -109,15 +146,42 @@ export default {
 
     data() {
         return {
+            shortcuts: [
+                {
+                    text: 'Today',
+                    value: new Date(),
+                },
+                {
+                    text: 'Yesterday',
+                    value: () => {
+                        const date = new Date()
+                        date.setTime(date.getTime() - 3600 * 1000 * 24)
+                        return date
+                    },
+                },
+                {
+                    text: 'A week ago',
+                    value: () => {
+                        const date = new Date()
+                        date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+                        return date
+                    },
+                },
+            ],
+            filter: {
+                date_start: null,
+                date_end: null,
+            },
             chartInterval: null,
-
-            url: '/admin/scale-detail?id=' + this.id,
+            urlPrepare: '/admin/scale-detail?id=' + this.id + "&",
+            url: '/admin/scale-detail?id=' + this.id + "&",
 
             columns: [
                 'id',
                 'weight',
                 'created_at',
             ],
+
             options: {
                 // see the options API
                 // https://github.com/matfish2/vue-tables-2/blob/master/lib/config/defaults.js
@@ -201,8 +265,6 @@ export default {
             let labels = []
             let weight = []
 
-            // console.log(scale)
-
             entities.forEach((el) => {
                 labels.push(el.created_at)
                 weight.push(el.weight)
@@ -234,6 +296,40 @@ export default {
                 table.refresh()
             }
         },
+
+        clearFilter() {
+            this.filter = {
+                date_start: this.currentDate(),
+                date_end: this.currentDate(),
+            }
+
+            this.url = this.urlPrepare;
+        },
+
+        findByFilter(){
+            const params = new URLSearchParams();
+            let oldUrl = this.url;
+
+            if (this.filter.date_start != null) {
+                params.append('date_start', this.filter.date_start)
+            }
+
+            if (this.filter.date_end != null) {
+                params.append('date_end', this.filter.date_end)
+            }
+
+            if (params.toString().length > 0) {
+                this.url = this.urlPrepare + params.toString();
+            }
+
+            if (this.url === oldUrl) {
+                this.$refs['scale'].refresh();
+            }
+        },
+
+        currentDate() {
+            return new Date().toISOString().slice(0, 10)
+        },
     },
 
     unmounted() {
@@ -244,6 +340,11 @@ export default {
         this.chartInterval = setInterval(function() {
             this.refreshTable()
         }.bind(this), 2 * 60 * 1000);
+
+        this.filter = {
+            date_start: this.currentDate(),
+            date_end: this.currentDate(),
+        }
     }
 }
 </script>
