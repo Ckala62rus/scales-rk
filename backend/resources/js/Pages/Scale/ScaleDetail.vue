@@ -28,7 +28,7 @@
 
         <div class="container-fluid mb-5 equipment__container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <div class="card card-custom rdp_statistic_mg">
                         <div class="card-body">
                             <div class="row">
@@ -53,6 +53,13 @@
                                         class="btn btn-secondary mb-5"
                                         @click="clearFilter"
                                     >Сброс</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary mb-5 ml-5"
+                                        @click="toExcel"
+                                    >Export Excel</button>
                                 </div>
                             </div>
 
@@ -171,6 +178,7 @@ export default {
             filter: {
                 date_start: null,
                 date_end: null,
+                scale_id: null,
             },
             chartInterval: null,
             urlPrepare: '/admin/scale-detail?id=' + this.id + "&",
@@ -329,6 +337,28 @@ export default {
 
         currentDate() {
             return new Date().toISOString().slice(0, 10)
+        },
+
+        toExcel(){
+            let time = new Date()
+            this.filter.scale_id = this.id
+
+            axios({
+                method:'GET',
+                url: '/admin/export',
+                responseType: 'blob',
+                params: this.filter
+            })
+                .then((response) => {
+                    if (response.status === 200){
+                        const url = window.URL.createObjectURL(new Blob([response.data]));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', `excel_devices_${time.toLocaleDateString() + '_' + time.toLocaleTimeString()}.xlsx`); //or any other extension
+                        document.body.appendChild(link);
+                        link.click();
+                    }
+                });
         },
     },
 
