@@ -58,6 +58,9 @@ class ScaleWeightService implements ScaleWeightServiceInterface
             $query = $query->where("scale_id", $filter["scale_id"]);
         }
 
+        $query = $this
+            ->setFilterForSearch($query, $filter);
+
         return $this
             ->weightRepository
             ->getAllScalesWeightCollection($query);

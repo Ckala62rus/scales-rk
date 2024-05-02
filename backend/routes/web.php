@@ -127,11 +127,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('backup-priorities-all-paginate', [BackupPriorityController::class, 'getAllBackupPriorityWithPagination']);
         Route::get('backup-priorities-all-collection', [BackupPriorityController::class, 'getAllBackupPriorityCollection']);
 
+        // Scale
         Route::resource('scales', ScaleController::class);
         Route::get('scales-all-paginate', [ScaleController::class, 'getAllScalesWithPagination']);
         Route::get('scales-detail/{id}', [ScaleController::class, 'getScaleDetail'])->name('scale.detail');
 
         Route::get('scale-detail', [ScaleWeightController::class, 'getScaleDetailById']);
+
+        // Export Excel
+        Route::get('export', [ExcelController::class, 'exportScaleWeight']);
     });
 
     // Permission
