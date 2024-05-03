@@ -93,23 +93,6 @@
                         </Link>
                     </li>
 
-                    <li v-if="role === 'super'" class="menu-item" aria-haspopup="true">
-                        <Link :href="route('organizations.index')" class="menu-link ">
-                        <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:media/svg/icons/Design/Layers.svg-->
-                            <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Shopping/Box2.svg-->
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M4,9.67471899 L10.880262,13.6470401 C10.9543486,13.689814 11.0320333,13.7207107 11.1111111,13.740321 L11.1111111,21.4444444 L4.49070127,17.526473 C4.18655139,17.3464765 4,17.0193034 4,16.6658832 L4,9.67471899 Z M20,9.56911707 L20,16.6658832 C20,17.0193034 19.8134486,17.3464765 19.5092987,17.526473 L12.8888889,21.4444444 L12.8888889,13.6728275 C12.9050191,13.6647696 12.9210067,13.6561758 12.9368301,13.6470401 L20,9.56911707 Z" fill="#000000"/>
-                                        <path d="M4.21611835,7.74669402 C4.30015839,7.64056877 4.40623188,7.55087574 4.5299008,7.48500698 L11.5299008,3.75665466 C11.8237589,3.60013944 12.1762411,3.60013944 12.4700992,3.75665466 L19.4700992,7.48500698 C19.5654307,7.53578262 19.6503066,7.60071528 19.7226939,7.67641889 L12.0479413,12.1074394 C11.9974761,12.1365754 11.9509488,12.1699127 11.9085461,12.2067543 C11.8661433,12.1699127 11.819616,12.1365754 11.7691509,12.1074394 L4.21611835,7.74669402 Z" fill="#000000" opacity="0.3"/>
-                                    </g>
-                                </svg><!--end::Svg Icon-->
-                            </span>
-                        </span>
-                            <span class="menu-text">Organizations</span>
-                        </Link>
-                    </li>
-
 <!--                    <li v-if="role === 'super'" class="menu-item" aria-haspopup="true">-->
 <!--                        <Link :href="route('equipments.index')" class="menu-link ">-->
 <!--                        <span class="svg-icon menu-icon">&lt;!&ndash;begin::Svg Icon | path:media/svg/icons/Design/Layers.svg&ndash;&gt;-->
@@ -132,57 +115,6 @@
 <!--                            <span class="menu-text">Типы оборудования</span>-->
 <!--                        </Link>-->
 <!--                    </li>-->
-
-                    <li class="menu-item" aria-haspopup="true">
-                        <Link :href="route('devices.index')" class="menu-link ">
-                        <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:media/svg/icons/Design/Layers.svg-->
-                            <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Devices/Tablet.svg-->
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M6.5,4 L6.5,20 L17.5,20 L17.5,4 L6.5,4 Z M7,2 L17,2 C18.1045695,2 19,2.8954305 19,4 L19,20 C19,21.1045695 18.1045695,22 17,22 L7,22 C5.8954305,22 5,21.1045695 5,20 L5,4 C5,2.8954305 5.8954305,2 7,2 Z" fill="#000000" fill-rule="nonzero"/>
-                                        <polygon fill="#000000" opacity="0.3" points="6.5 4 6.5 20 17.5 20 17.5 4"/>
-                                    </g>
-                                </svg><!--end::Svg Icon-->
-                            </span>
-                        </span>
-                            <span class="menu-text">Devices</span>
-                        </Link>
-                    </li>
-
-                    <li class="menu-item" aria-haspopup="true">
-                        <Link :href="route('backups.index')" class="menu-link ">
-                        <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:media/svg/icons/Design/Layers.svg-->
-                            <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/General/Shield-protected.svg-->
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z" fill="#000000" opacity="0.3"/>
-                                        <path d="M14.5,11 C15.0522847,11 15.5,11.4477153 15.5,12 L15.5,15 C15.5,15.5522847 15.0522847,16 14.5,16 L9.5,16 C8.94771525,16 8.5,15.5522847 8.5,15 L8.5,12 C8.5,11.4477153 8.94771525,11 9.5,11 L9.5,10.5 C9.5,9.11928813 10.6192881,8 12,8 C13.3807119,8 14.5,9.11928813 14.5,10.5 L14.5,11 Z M12,9 C11.1715729,9 10.5,9.67157288 10.5,10.5 L10.5,11 L13.5,11 L13.5,10.5 C13.5,9.67157288 12.8284271,9 12,9 Z" fill="#000000"/>
-                                    </g>
-                                </svg><!--end::Svg Icon-->
-                            </span>
-                        </span>
-                            <span class="menu-text">Backup</span>
-                        </Link>
-                    </li>
-
-                    <li class="menu-item" aria-haspopup="true">
-                        <Link :href="route('isp.index')" class="menu-link ">
-                        <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:media/svg/icons/Design/Layers.svg-->
-                            <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Electric/Outlet.svg-->
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M15,4 C15.5522847,4 16,4.44771525 16,5 L16,9 L14,9 L14,5 C14,4.44771525 14.4477153,4 15,4 Z M9,4 C9.55228475,4 10,4.44771525 10,5 L10,9 L8,9 L8,5 C8,4.44771525 8.44771525,4 9,4 Z" fill="#000000" opacity="0.3"/>
-                                        <path d="M13,16.9291111 L13,22 L11,22 L11,16.9291111 C7.60770586,16.4438815 5,13.5264719 5,10 L5,9 L19,9 L19,10 C19,13.5264719 16.3922941,16.4438815 13,16.9291111 Z" fill="#000000"/>
-                                    </g>
-                                </svg><!--end::Svg Icon-->
-                            </span>
-                        </span>
-                            <span class="menu-text">ISP</span>
-                        </Link>
-                    </li>
 
                     <li class="menu-item" aria-haspopup="true">
                         <Link :href="route('scales.index')" class="menu-link ">

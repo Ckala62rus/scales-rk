@@ -2,7 +2,6 @@
     <div>
         <div class="container-fluid mb-5">
             <div class="row">
-
                 <div class="col-md-12">
                     <div class="card card-custom height-profile rdp_statistic_mg">
                         <!--                    <div class="card-header">-->
@@ -16,13 +15,11 @@
                             <Line id="my-chart-id"
                                   :options="chartOptions"
                                   :data="chartData"
-                                  ref="line"
+                                  ref="chartRef"
                             />
                         </div>
-
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -60,6 +57,12 @@
                                         class="btn btn-primary mb-5 ml-5"
                                         @click="toExcel"
                                     >Export Excel</button>
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary mb-5 ml-5"
+                                        @click="zoomReset"
+                                    >RESET ZOOM</button>
                                 </div>
                             </div>
 
@@ -113,6 +116,8 @@
 <script>
 
 import { Line } from 'vue-chartjs'
+import zoomPlugin from 'chartjs-plugin-zoom';
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -134,7 +139,14 @@ ChartJS.register(
     Legend
 )
 
-ChartJS.register(CategoryScale, LinearScale, Title, Tooltip, Legend)
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    Title,
+    Tooltip,
+    Legend,
+    zoomPlugin
+)
 
 export default {
     name: "ScaleDetail",
@@ -243,7 +255,7 @@ export default {
                     display: true
                 },
                 responsive: true,
-                // plugins: {
+                plugins: {
                     // title: {
                     //     display: true,
                     //     text: 'Scale with ip 127.0.0.1'
@@ -260,7 +272,22 @@ export default {
                     //         }
                     //     }
                     // }
-                // },
+                    zoom: {
+                        pan: {
+                            enabled: true,
+                            mode: 'xy'
+                        },
+                        zoom: {
+                            wheel: {
+                                enabled: true,
+                            },
+                            pinch: {
+                                enabled: true
+                            },
+                            mode: 'xy',
+                        }
+                    }
+                },
             },
         }
     },
@@ -311,7 +338,8 @@ export default {
                 date_end: this.currentDate(),
             }
 
-            this.url = this.urlPrepare;
+            this.url = this.urlPrepare
+            this.zoomReset()
         },
 
         findByFilter(){
@@ -359,6 +387,10 @@ export default {
                         link.click();
                     }
                 });
+        },
+
+        zoomReset() {
+            this.$refs['chartRef'].chart.resetZoom()
         },
     },
 

@@ -27,7 +27,6 @@ class UserCreateRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|email|unique:App\Models\User,email',
             'password' => 'required|confirmed',
-            'organization_id' => 'required|integer',
             'role_id' => 'required|integer',
         ];
     }
@@ -40,7 +39,6 @@ class UserCreateRequest extends FormRequest
             'email.required' => 'E-mail обязателен',
             'name.required' => 'Имя обязателено',
             'role_id.required' => 'Роль обязателена',
-            'organization_id.required' => 'Организация обязателена',
 //            admin1@mail.ru
         ];
     }
