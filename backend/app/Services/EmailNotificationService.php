@@ -10,9 +10,15 @@ class EmailNotificationService implements Notification
 {
     public function send(string $message)
     {
-        $notification = (new ScaleNotificationMail($message))
-            ->onQueue("notification");
+        $emails_string = config('notification.emails');
 
-        Mail::queue($notification);
+        $emails = explode(';', $emails_string);
+
+        foreach ($emails as $email) {
+            $notification = (new ScaleNotificationMail($message, $email))
+                ->onQueue("notification");
+
+            Mail::queue($notification);
+        }
     }
 }
