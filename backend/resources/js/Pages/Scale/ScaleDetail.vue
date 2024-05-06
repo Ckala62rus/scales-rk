@@ -73,11 +73,11 @@
                                             <label>Начальная дата:</label>
                                             <el-date-picker
                                                 v-model="filter.date_start"
-                                                type="date"
-                                                placeholder="Pick a day"
+                                                type="datetime"
+                                                placeholder="Select date and time"
                                                 :shortcuts="shortcuts"
                                                 :size="'default'"
-                                                :value-format="'YYYY-MM-DD'"
+                                                :value-format="'YYYY-MM-DD HH:mm:ss'"
                                             />
                                         </div>
                                     </div>
@@ -86,11 +86,11 @@
                                             <label>Конечная дата:</label>
                                             <el-date-picker
                                                 v-model="filter.date_end"
-                                                type="date"
-                                                placeholder="Pick a day"
+                                                type="datetime"
+                                                placeholder="Select date and time"
                                                 :shortcuts="shortcuts"
                                                 :size="'default'"
-                                                :value-format="'YYYY-MM-DD'"
+                                                :value-format="'YYYY-MM-DD HH:mm:ss'"
                                             />
                                         </div>
                                     </div>
@@ -334,7 +334,7 @@ export default {
 
         clearFilter() {
             this.filter = {
-                date_start: this.currentDate(),
+                date_start: new Date().toISOString().slice(0, 10) + " 00:00:00",
                 date_end: this.currentDate(),
             }
 
@@ -364,7 +364,30 @@ export default {
         },
 
         currentDate() {
-            return new Date().toISOString().slice(0, 10)
+            // console.log(new Date().toISOString())
+            // return new Date().toISOString().slice(0, 10)
+            return this.formatDate()
+        },
+
+        padTo2Digits(num) {
+            return num.toString().padStart(2, '0');
+        },
+
+        formatDate() {
+            let date = new Date()
+            return (
+                [
+                    date.getFullYear(),
+                    this.padTo2Digits(date.getMonth() + 1),
+                    this.padTo2Digits(date.getDate()),
+                ].join('-') +
+                ' ' +
+                [
+                    this.padTo2Digits(date.getHours()),
+                    this.padTo2Digits(date.getMinutes()),
+                    this.padTo2Digits(date.getSeconds()),
+                ].join(':')
+            );
         },
 
         toExcel(){
@@ -404,7 +427,7 @@ export default {
         }.bind(this), 2 * 60 * 1000);
 
         this.filter = {
-            date_start: this.currentDate(),
+            date_start: new Date().toISOString().slice(0, 10) + " 00:00:00",
             date_end: this.currentDate(),
         }
     }

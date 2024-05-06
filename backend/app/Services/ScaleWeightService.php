@@ -147,13 +147,17 @@ class ScaleWeightService implements ScaleWeightServiceInterface
         if (isset($filter['date_start']) && isset($filter['date_end'])){
             $query = $query->where(function ($query) use ($filter){
                 /** @var Builder $query $start */
-                $start = Carbon::parse($filter['date_start'])->format('Y-m-d') . ' 00:00:00';
-                $end = Carbon::parse($filter['date_end'])->format('Y-m-d') . ' 23:59:59';
+                $start = Carbon::parse($filter['date_start'])->format('Y-m-d H:i:s');
+                $end = Carbon::parse($filter['date_end'])->format('Y-m-d H:i:s');
                 $query->whereBetween('created_at', [$start, $end]);
             });
         }
 
         if (!isset($filter['date_start']) && !isset($filter['date_end'])){
+            $query = $query->whereDate('created_at', Carbon::now());
+        }
+
+        if (isset($filter['date_start']) && !isset($filter['date_end'])){
             $query = $query->whereDate('created_at', Carbon::now());
         }
 
