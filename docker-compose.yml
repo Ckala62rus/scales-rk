@@ -93,3 +93,14 @@ services:
       - PMA_ARBITRARY=1
     depends_on:
       - mysql-scales-rk
+
+  node:
+    build:
+      context: .
+      dockerfile: ./docker/node/DockerFile
+    container_name: vue-scales-rk
+    volumes:
+      - ./backend/:/var/www
+    tty: true
+    depends_on:
+      - backend-scales-rk
