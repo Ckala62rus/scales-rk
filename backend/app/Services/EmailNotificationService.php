@@ -12,13 +12,17 @@ class EmailNotificationService implements Notification
     {
         $emails_string = config('notification.emails');
 
-        $emails = explode(';', $emails_string);
+        if (strlen($emails_string) > 0) {
+            $emails = explode(';', $emails_string);
 
-        foreach ($emails as $email) {
-            $notification = (new ScaleNotificationMail($message, $email))
-                ->onQueue("notification");
+            if (count($emails) > 0) {
+                foreach ($emails as $email) {
+                    $notification = (new ScaleNotificationMail($message, $email))
+                        ->onQueue("notification");
 
-            Mail::queue($notification);
+                    Mail::queue($notification);
+                }
+            }
         }
     }
 }
