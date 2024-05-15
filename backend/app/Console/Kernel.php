@@ -22,9 +22,8 @@ class Kernel extends ConsoleKernel
 //            ->withoutOverlapping();
 
          $schedule
-//             ->command('command:gocron')
              ->command('command:GetScaleWeightCommand')
-             ->everyFiveMinutes()
+             ->everyMinute()
              ->withoutOverlapping();
     }
 

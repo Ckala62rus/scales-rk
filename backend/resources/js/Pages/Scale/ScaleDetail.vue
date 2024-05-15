@@ -424,7 +424,7 @@ export default {
     mounted() {
         this.chartInterval = setInterval(function() {
             this.refreshTable()
-        }.bind(this), 2 * 60 * 1000);
+        }.bind(this), 1 * 60 * 1000);
 
         this.filter = {
             date_start: new Date().toISOString().slice(0, 10) + " 00:00:00",
