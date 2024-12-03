@@ -4,12 +4,9 @@ namespace App\Jobs;
 
 use App\Contracts\Notification\NotificationFabricInterface;
 use App\Contracts\Scale\ScaleApiServiceInterface;
-use App\Contracts\Scale\ScaleServiceInterface;
 use App\Contracts\ScaleWeight\ScaleWeightServiceInterface;
 use App\Models\Scale;
 use Illuminate\Bus\Queueable;
-use Illuminate\Console\Command;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -18,7 +15,10 @@ use Illuminate\Support\Facades\Log;
 
 class GetScaleWeightJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
@@ -29,8 +29,6 @@ class GetScaleWeightJob implements ShouldQueue
         private Scale $scale
     ){}
 
-//    public $tries = 3;
-//    public $retryAfter = 5;
 
     /**
      * Execute the job.
@@ -47,7 +45,7 @@ class GetScaleWeightJob implements ShouldQueue
         /** @var ScaleWeightServiceInterface $scaleWeightService */
         $scaleWeightService = app(ScaleWeightServiceInterface::class);
 
-        /** @var NotificationFabricInterface $scaleWeightService */
+        /** @var NotificationFabricInterface $notificationFabric */
         $notificationFabric = app(NotificationFabricInterface::class);
 
         while ($retry != 0) {
@@ -72,6 +70,8 @@ class GetScaleWeightJob implements ShouldQueue
                     $this->scale->send_error_notification = false;
                     $this->scale->last_error = null;
                     $this->scale->save();
+                    $notificationFabric
+                        ->sendNotifications("Связь с весами {$this->scale->ip_address}:{$this->scale->port} восстановлена.");
                 }
 
                 break;

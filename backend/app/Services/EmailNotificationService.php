@@ -17,6 +17,9 @@ class EmailNotificationService implements Notification
 
             if (count($emails) > 0) {
                 foreach ($emails as $email) {
+                    if (strlen($email) > 0) {
+                        continue;
+                    }
                     $notification = (new ScaleNotificationMail($message, $email))
                         ->onQueue("notification");
 
