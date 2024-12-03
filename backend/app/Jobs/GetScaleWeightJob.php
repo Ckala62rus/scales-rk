@@ -6,6 +6,7 @@ use App\Contracts\Notification\NotificationFabricInterface;
 use App\Contracts\Scale\ScaleApiServiceInterface;
 use App\Contracts\ScaleWeight\ScaleWeightServiceInterface;
 use App\Models\Scale;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -69,6 +70,7 @@ class GetScaleWeightJob implements ShouldQueue
                 if ($this->scale->send_error_notification) {
                     $this->scale->send_error_notification = false;
                     $this->scale->last_error = null;
+                    $this->scale->last_error_date = null;
                     $this->scale->save();
                     $notificationFabric
                         ->sendNotifications("Связь с весами {$this->scale->ip_address}:{$this->scale->port} восстановлена.");
@@ -91,6 +93,7 @@ class GetScaleWeightJob implements ShouldQueue
 
                 $this->scale->send_error_notification = true;
                 $this->scale->last_error = $exception->getMessage() . " | " . $error;
+                $this->scale->last_error_date = Carbon::now();
                 $this->scale->save();
             }
         }

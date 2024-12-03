@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $description
  * @property boolean $send_error_notification
  * @property string last_error
+ * @property DateTime last_error_date
  * @property DateTime $created_at
  * @property DateTime $updated_at
  */
@@ -27,6 +28,7 @@ class Scale extends Model
         "description",
         "send_error_notification",
         "last_error",
+        "last_error_date",
     ];
 
     /**
