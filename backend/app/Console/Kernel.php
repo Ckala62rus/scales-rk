@@ -25,6 +25,11 @@ class Kernel extends ConsoleKernel
              ->command('command:GetScaleWeightCommand')
              ->everyMinute()
              ->withoutOverlapping();
+
+         $schedule
+             ->command("command:SendNotificationIfScaleDontWorkAllDayCommand")
+             ->hourly()
+             ->withoutOverlapping();
     }
 
     /**
