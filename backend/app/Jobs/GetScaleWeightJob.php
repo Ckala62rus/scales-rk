@@ -51,11 +51,14 @@ class GetScaleWeightJob implements ShouldQueue
 
         while ($retry != 0) {
             try {
-//                if ($retry == 1) {
-//                    sleep(15);
-//                }
+                if ($retry == 1) {
+                    sleep(15);
+                }
 
-                sleep(15);
+                if ($retry == 2) {
+                    sleep(10);
+                }
+
 
                 $retry--;
                 $weight = $scalesApiService->getWeight($this->scale->ip_address, $this->scale->port);

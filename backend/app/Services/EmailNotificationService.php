@@ -18,7 +18,7 @@ class EmailNotificationService implements Notification
 
             if (count($emails) > 0) {
                 foreach ($emails as $email) {
-                    if (strlen($email) > 0) {
+                    if ($emails == "") {
                         continue;
                     }
                     Log::info("отправка письма на {$email}");
