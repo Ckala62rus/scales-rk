@@ -38,7 +38,7 @@ class GetScaleWeightJob implements ShouldQueue
      */
     public function handle()
     {
-        $retry = 2;
+        $retry = 3;
 
         /** @var ScaleApiServiceInterface $scalesApiService */
         $scalesApiService = app(ScaleApiServiceInterface::class);
@@ -51,9 +51,11 @@ class GetScaleWeightJob implements ShouldQueue
 
         while ($retry != 0) {
             try {
-                if ($retry == 1) {
-                    sleep(15);
-                }
+//                if ($retry == 1) {
+//                    sleep(15);
+//                }
+
+                sleep(15);
 
                 $retry--;
                 $weight = $scalesApiService->getWeight($this->scale->ip_address, $this->scale->port);
@@ -68,6 +70,7 @@ class GetScaleWeightJob implements ShouldQueue
                 ]);
 
                 if ($this->scale->send_error_notification) {
+                    Log::info("Связь установлена. Сбрасываем ошибку и отправляем письмо о восстановлении весов");
                     $this->scale->send_error_notification = false;
                     $this->scale->last_error = null;
                     $this->scale->last_error_date = null;
@@ -95,6 +98,7 @@ class GetScaleWeightJob implements ShouldQueue
                 $this->scale->last_error = $exception->getMessage() . " | " . $error;
                 $this->scale->last_error_date = Carbon::now();
                 $this->scale->save();
+                Log::info("Попытки получения данных закончились и письмо отправлено");
             }
         }
     }

@@ -40,6 +40,7 @@ class NotificationScaleFabric implements  NotificationFabricInterface
 
                 $notificator->send($message);
             } catch (\Exception $exception) {
+                Log::info("Проблемы при отправке почты");
                 Log::info($exception->getMessage());
             }
         }

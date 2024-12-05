@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Notification\Notification;
 use App\Mail\ScaleNotificationMail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class EmailNotificationService implements Notification
@@ -20,6 +21,7 @@ class EmailNotificationService implements Notification
                     if (strlen($email) > 0) {
                         continue;
                     }
+                    Log::info("отправка письма на {$email}");
                     $notification = (new ScaleNotificationMail($message, $email))
                         ->onQueue("notification");
 
